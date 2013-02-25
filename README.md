@@ -27,11 +27,11 @@ Status: Untested in production, but ready to be.
 - `var fan = fanin(n, cb)` returns a function which will act as a callback to the sub-calls in which you only care about errors.
 - `fan.capture(name)` will act as a callback to the sub-calls which you care about return value (placing them in an object under the key `name`.
 - options:
-    - `joinErrs` is an optional argument to join the error list (it can be a string to join on or true for .join('; '))
+    - `joinErrs` is an optional argument to join the error list (it can be a string to join on or true for `.join('; ')`)
 
 ## Installation
 
-`npm install after`
+`npm install fanin`
 
 ## Tests
 

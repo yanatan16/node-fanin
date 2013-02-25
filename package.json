@@ -1,7 +1,7 @@
 {
   "name": "fanin",
   "description": "fanin - the fan-in concurrency pattern",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Jon Eisen <jon.m.eisen@gmail.com>",
   "scripts": {
     "test": "make test"
