@@ -1,0 +1,21 @@
+{
+  "name": "fanin",
+  "description": "fanin - the fan-in concurrency pattern",
+  "version": "0.1.0",
+  "author": "Jon Eisen <jon.m.eisen@gmail.com>",
+  "scripts": {
+    "test": "make test"
+  },
+  "devDependencies": {
+    "mocha": "0.10.2"
+  },
+  "keywords": [
+    "flowcontrol",
+    "concurrency",
+    "fanin",
+    "patterns",
+    "flow"
+  ],
+  "repository": "git://github.com/yanatan16/node-fanin.git",
+  "main": "lib/fanin"
+}
