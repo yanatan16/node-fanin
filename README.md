@@ -40,4 +40,4 @@ baz(fan);
 
 ## License
 
-MIT License found in the LICENSE file.
+MIT License found in the LICENSE file. 
