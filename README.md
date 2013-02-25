@@ -42,6 +42,6 @@ baz(fan);
 
 MIT License found in the LICENSE file. 
 
-  [1]: https://secure.travis-ci.org/yanatan16/node-fanin.png
-  [2]: http://travis-ci.org/yanatan16/node-fanin.js
+  [1]: https://travis-ci.org/yanatan16/node-fanin.png?branch=master
+  [2]: http://travis-ci.org/yanatan16/node-fanin
 
