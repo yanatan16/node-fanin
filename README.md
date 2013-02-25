@@ -7,23 +7,22 @@ Status: Untested in production, but ready to be.
 
 ## Why do you need fan-in?
 
-- You want to make `total` asynchronous calls simultaneously and make a callback when all have finished.
+- You want to make `n` asynchronous calls simultaneously and make a callback when all have finished.
 - You may want to save the callback values of these calls, and definitely want the errors.
 - You just want that. Nothing else.
 
 ## API
 
 
-```node.js
-var fanin = require('fanin')
-  , fan = fanin(3, cb);
- 
-foo(fan.capture('foo'));
-bar(fan.capture('bar'));
-baz(fan);
 
-// cb(array_of_errs, {foo: foo_obj, bar: bar_obj}); will be called.
-```
+    var fanin = require('fanin')
+      , fan = fanin(3, cb);
+ 
+    foo(fan.capture('foo'));
+    bar(fan.capture('bar'));
+    baz(fan);
+
+    // cb(array_of_errs, {foo: foo_obj, bar: bar_obj}); will be called.
 
 - `var fan = fanin(n, cb)` returns a function which will act as a callback to the sub-calls in which you only care about errors.
 - `fan.capture(name)` will act as a callback to the sub-calls which you care about return value (placing them in an object under the key `name`.
