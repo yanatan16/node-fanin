@@ -72,6 +72,13 @@ describe("fanin", function () {
           fan.capture('bar')(undefined, {hello: 123});
           fan('ERROR on baz');
         });
+
+        it('fanin mult args', function (done) {
+          var fan = fanin(2, setup(done, undefined, {foo: 123, bar: ['a', 'b', 'c']}));
+
+          fan.capture('foo')(null, 123);
+          fan.capture('bar')(null, 'a', 'b', 'c');
+        });
     })
 });
 

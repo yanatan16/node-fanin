@@ -22,10 +22,22 @@ Status: Untested in production, but ready to be.
     bar(fan.capture('bar'));
     baz(fan);
 
-    // cb(array_of_errs, {foo: foo_obj, bar: bar_obj}); will be called.
+    function foo(cb) {
+      cb(null, {some: 'object'});
+    }
+
+    function bar(cb) {
+      cb(null, 'multiple', 'return', 'values');
+    }
+
+    function baz(cb) {
+      cb(new Error('oops'));
+    }
+
+    // cb([Error('oops')], {foo: {some: 'object', bar: ['multiple', 'return', 'values']}); is called
 
 - `var fan = fanin(n, cb)` returns a function which will act as a callback to the sub-calls in which you only care about errors.
-- `fan.capture(name)` will act as a callback to the sub-calls which you care about return value (placing them in an object under the key `name`.
+- `fan.capture(name)` will act as a callback to the sub-calls which you care about return value(s) (placing them in an object under the key `name`.
 - options:
     - `joinErrs` is an optional argument to join the error list (it can be a string to join on or true for `.join('; ')`)
 
