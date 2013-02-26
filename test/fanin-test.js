@@ -40,24 +40,6 @@ describe("fanin", function () {
             fan({error: 'yo'});
         });
 
-        it("fanin errors join", function (done) {
-            var fan = fanin(5, setup(done, '4 - 3 - 2 - 1 - 0'), {joinErrs: ' - '})
-              , i = 5;
-
-            while (i--) {
-              fan('' + i);
-            }
-        });
-
-        it("fanin errors join default", function (done) {
-            var fan = fanin(5, setup(done, '1; 2; 3; 4; 5'), {joinErrs: true})
-              , i = 5;
-
-            while (i--) {
-              fan('' + (5-i));
-            }
-        });
-
         it('fanin obj', function (done) {
           var fan = fanin(1, setup(done, undefined, {foo: 'retval'}))
             , cb = fan.capture('foo');
@@ -65,12 +47,12 @@ describe("fanin", function () {
           cb(undefined, 'retval');
         });
 
-        it('fanin mixed', function (done) {
-          var fan = fanin(3, setup(done, ['ERROR on foo', 'ERROR on baz'], {foo: undefined, bar: {hello: 123}}));
+        it('fanin arr', function (done) {
+          var fan = fanin(3, setup(done, undefined, {ordered: ['a', 'b', 'c']}));
 
-          fan.capture('foo')('ERROR on foo');
-          fan.capture('bar')(undefined, {hello: 123});
-          fan('ERROR on baz');
+          fan.ordered(2)(null, 'c');
+          fan.ordered(1)(null, 'b');
+          fan.ordered(0)(null, 'a');
         });
 
         it('fanin mult args', function (done) {
@@ -78,6 +60,26 @@ describe("fanin", function () {
 
           fan.capture('foo')(null, 123);
           fan.capture('bar')(null, 'a', 'b', 'c');
+        });
+
+        it('fanin timeout', function (done) {
+          var fan = fanin(2, setup(done, ['timeout!'], undefined));
+          fan.timeout('timeout!');
+        });
+
+        it('fanin mixed', function (done) {
+          var fan = fanin(5, setup(done, ['ERROR on foo', 'ERROR on baz'], 
+            {
+              foo: undefined, 
+              bar: { hello: 123 },
+              ordered: [ 'abc', [1,2,3] ]
+            }));
+
+          fan.ordered(0)(null, 'abc');
+          fan.capture('foo')('ERROR on foo');
+          fan.capture('bar')(undefined, {hello: 123});
+          fan.ordered(1)(null, 1,2,3);
+          fan('ERROR on baz');
         });
     })
 });

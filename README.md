@@ -13,33 +13,67 @@ Status: Untested in production, but ready to be.
 
 ## API
 
-
+Usage:
 
     var fanin = require('fanin')
-      , fan = fanin(3, cb);
+      , fan = fanin(number_of_callbacks, final_callback);
+
+    asyncCall(fan); // repeat...
+    asyncCall(fan.capture('field'));
+    asyncCall(fan.ordered(index));
+    ...
+    fan.timeout(err)
+
+
+    // final_callback( error_array, )
+
+Basic Usage (no return values, just an unorded list of errors):
+
+    var fan = fanin(2, cb);
+ 
+    foo(fan);
+    bar(fan);
+
+    function foo(cb) { cb(new Error('some error')); }
+
+    function bar(cb) { cb(null); }
+
+    // cb([ Error('some error') ]);
+
+Storing return value(s):
+
+    var fan = fanin(2, cb);
  
     foo(fan.capture('foo'));
     bar(fan.capture('bar'));
-    baz(fan);
 
-    function foo(cb) {
-      cb(null, {some: 'object'});
-    }
+    function foo(cb) { cb(null, 'foobaz'); }
 
-    function bar(cb) {
-      cb(null, 'multiple', 'return', 'values');
-    }
+    function bar(cb) { cb(null, 'barbaz'); }
 
-    function baz(cb) {
-      cb(new Error('oops'));
-    }
+    // cb(undefined, { foo: 'foobaz', bar: 'barbaz' } );
 
-    // cb([Error('oops')], {foo: {some: 'object', bar: ['multiple', 'return', 'values']}); is called
+Storing return values in an ordered array:
 
-- `var fan = fanin(n, cb)` returns a function which will act as a callback to the sub-calls in which you only care about errors.
-- `fan.capture(name)` will act as a callback to the sub-calls which you care about return value(s) (placing them in an object under the key `name`.
-- options:
-    - `joinErrs` is an optional argument to join the error list (it can be a string to join on or true for `.join('; ')`)
+    var fan = fanin(2, cb);
+ 
+    foo(fan.ordered(1));
+    bar(fan.ordered(0));
+
+    function foo(cb) { cb(null, 'foobaz'); }
+
+    function bar(cb) { cb(null, 'barbaz'); }
+
+    // cb(undefined, { ordered: [ 'barbaz', 'foobaz' ] } );
+
+Timeouts on these calls:
+
+    var fan = fanin(2, cb);
+
+    fan.timeout(new Error('timeout!'));
+
+    // cb([ Error('timeout!') ])
+
 
 ## Installation
 
