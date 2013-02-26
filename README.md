@@ -25,7 +25,7 @@ Usage:
     fan.timeout(err)
 
 
-    // final_callback( error_array, )
+    // final_callback( error_array, return_value_object );
 
 Basic Usage (no return values, just an unorded list of errors):
 
@@ -49,9 +49,9 @@ Storing return value(s):
 
     function foo(cb) { cb(null, 'foobaz'); }
 
-    function bar(cb) { cb(null, 'barbaz'); }
+    function bar(cb) { cb(null, 'bar', 'baz'); }
 
-    // cb(undefined, { foo: 'foobaz', bar: 'barbaz' } );
+    // cb(undefined, { foo: 'foobaz', bar: [ 'bar', 'baz' ] } );
 
 Storing return values in an ordered array:
 
